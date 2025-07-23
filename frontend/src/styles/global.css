@@ -1,0 +1,36 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  @apply bg-background text-foreground font-sans;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.3);
+  border-radius: 4px;
+}
+
+/* Light/Dark Theme colors */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+}

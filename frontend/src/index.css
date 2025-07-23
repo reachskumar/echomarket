@@ -1,0 +1,80 @@
+@import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.1 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.1 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --primary: oklch(0.205 0 0);
+    --secondary: oklch(0.97 0 0);
+    --muted: oklch(0.97 0 0);
+    --accent: oklch(0.97 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --ring: oklch(0.708 0 0);
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: oklch(0.1 0 0);
+    --foreground: oklch(0.98 0 0);
+    --card: oklch(0.15 0 0);
+    --card-foreground: oklch(0.98 0 0);
+    --border: oklch(0.3 0 0 / 0.2);
+    --input: oklch(0.15 0 0);
+    --primary: oklch(0.6 0.1 240);
+    --secondary: oklch(0.3 0 0);
+    --muted: oklch(0.2 0 0);
+    --accent: oklch(0.25 0 0);
+    --destructive: oklch(0.6 0.15 20);
+    --ring: oklch(0.6 0 0);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans antialiased min-h-screen;
+  }
+}
+
+@layer utilities {
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  .bg-card {
+    background-color: hsl(var(--card));
+  }
+  .text-muted {
+    color: hsl(var(--muted));
+  }
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+  .ring-ring {
+    --tw-ring-color: hsl(var(--ring));
+  }
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+  .text-secondary {
+    color: hsl(var(--secondary));
+  }
+}
