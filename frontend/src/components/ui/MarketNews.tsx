@@ -1,5 +1,4 @@
 // Market News Component
-// 
 // Displays recent news articles related to the stock being analyzed.
 
 import React from "react";
