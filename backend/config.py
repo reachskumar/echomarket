@@ -1,7 +1,5 @@
 # Configuration Settings
-# 
 # This file manages all the environment variables and API keys our app needs.
-#
 
 import os
 from dotenv import load_dotenv
