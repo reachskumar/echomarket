@@ -1,5 +1,4 @@
 // Price Trend Chart Component
-// 
 // Displays a visual chart of recent price movements for the stock.
 
 import React from "react";
