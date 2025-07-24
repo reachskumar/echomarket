@@ -80,7 +80,7 @@ Make sure these are in .env under project root:
 
   
 This one, under frontend, talks to your backend URL. This is where you update the backend url.
- VITE_API_URL
+- VITE_API_URL
 
 
 
