@@ -37,8 +37,8 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from project root
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 MONGO_URI = os.getenv("MONGODB_URI")
 MONGO_DB = os.getenv("MONGO_DB_NAME")
 MONGO_COLLECTION = os.getenv("MONGO_COLLECTION")
