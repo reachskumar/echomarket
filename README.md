@@ -58,14 +58,15 @@ Here’s how to get the backend up and running:
 ### 3. Running It
 
 Make sure to run from the project root using:
-python -m backend.main 
-Don’t run `main.py` directly — it’ll break imports.
+
+- python -m backend.main 
+- Don’t run `main.py` directly — it’ll break imports.
 
 ##  Running the Frontend (Locally)
 
-cd frontend
-npm install
-npm run dev 
+- cd frontend
+- npm install
+- npm run dev 
 
 ## 🔑 API Keys Needed
 
