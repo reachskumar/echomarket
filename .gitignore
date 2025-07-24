@@ -7,4 +7,6 @@ __pycache__/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-backend/serviceAccountKey.json
+
+
+

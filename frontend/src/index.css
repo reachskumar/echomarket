@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 @layer base {
-  /* Light theme color variables */
+  /* Theme color variables */
   :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.1 0 0);
