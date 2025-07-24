@@ -128,11 +128,9 @@ const Home: React.FC = () => {
     } else {
       // Use backend API to detect ticker from company name
       try {
-        const response = await fetch(`http://localhost:8000/detect-ticker?company=${encodeURIComponent(input)}`);
-        if (!response.ok) throw new Error("Failed to detect ticker");
-        const result = await response.json();
-        if (result.ticker) {
-          resolvedTicker = result.ticker.toUpperCase();
+        const detected = await detectTicker(input);
+        if (detected) {
+          resolvedTicker = detected.toUpperCase();
           if (symbol !== resolvedTicker) setSymbol(resolvedTicker);
         } else {
           setError(`Could not find ticker for "${input}". Please try using the ticker symbol directly (e.g., GM for General Motors).`);
@@ -163,7 +161,8 @@ const Home: React.FC = () => {
   const lastPrice = (typeof data?.price === 'number' && isFinite(data.price) && data.price > 0)
     ? data.price
     : undefined;
-  let lastPriceRaw = (typeof data?.price === 'number' && data.price > 0) ? data.price : undefined;
+  // let lastPriceRaw = (typeof data?.price === 'number' && data.price > 0) ? data.price : undefined;
+  // lastPriceRaw is commented out for now, uncomment if needed for future use
   
   // Calculate price change using historical data
   let priceChange = 0;
