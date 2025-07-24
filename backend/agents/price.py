@@ -1,5 +1,5 @@
-# Gets current price and recent price history for a stock
-# Uses TwelveData API
+# Gets current price and recent price history for a stock using TwelveData API
+
 
 import logging
 from datetime import datetime
@@ -43,7 +43,7 @@ def price_agent(state: Any) -> Dict[str, Any]:
                 logger.warning(f"Could not convert price: {price_str}")
                 price = None
 
-        # Get 7 days of price history
+        # Get 7 days of price history 
         hist_url = "https://api.twelvedata.com/time_series"
         hist_params = {
             "symbol": ticker,
