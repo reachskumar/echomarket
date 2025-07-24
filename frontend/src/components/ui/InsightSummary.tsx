@@ -1,5 +1,4 @@
 // Insight Summary Component
-// 
 // Displays the final AI-generated summary
 
 import React from "react";
