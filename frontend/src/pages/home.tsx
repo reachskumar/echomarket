@@ -1,5 +1,4 @@
 // Main Home Page Component
-// 
 // This is the heart of the app - handles user input, calls the backend API,
 // and displays all the analysis results. The flow is pretty simple:
 // 1. User types in a company name or ticker
