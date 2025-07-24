@@ -18,15 +18,6 @@ You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'
 6. Delivers a clean summary and recommendation.
 
 
-Always show details
-
-Copy
-from pathlib import Path
-import re
-
-# Load current README content
-readme_path = "/mnt/data/EchoMarket_README_Humanized.md"
-readme_text = Path(readme_path).read_text()
 
 
 ## Tech Stack
