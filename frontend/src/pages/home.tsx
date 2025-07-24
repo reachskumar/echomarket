@@ -202,7 +202,7 @@ const Home: React.FC = () => {
               price={typeof data.price === 'number' ? data.price : undefined}
               sentiment={data.sentiment}
               recommendation={data.recommendation}
-              confidence={data.confidence}
+              confidence={data.trend?.confidence ?? data.confidence}
               riskLevel={data.trend?.risk}
             />
 
