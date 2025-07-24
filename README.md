@@ -70,12 +70,15 @@ Make sure to run from the project root using:
 
 ## 🔑 API Keys Needed
 
-Make sure these are in .env:
+## You need two .env file one inside your project root and the other one insdie your frontend folder Make sure these are in .env:
 
+Make sure these are in .env under project root:
 - OPENAI_API_KEY 
 - TWELVEDATA_API_KEY ( I am using TwelveData, you can use any financial API like AlphaVantage, FinHub etc.
 - TAVILY_API_KEY
 - MONGODB_URI
+This one under frontend: This talks to your backend URL this is where you update the backend url.
+ VITE_API_URL
 
 
 
