@@ -52,7 +52,7 @@ Here’s how to get the backend up and running:
 
 - cd echomarket
 - cp backend/.env.example backend/.env  # Fill in your API keys
-- cd backend
+- cd yourproject
 - pip install -r requirements.txt
 
 ### 3. Running It
