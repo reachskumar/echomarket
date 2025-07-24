@@ -77,7 +77,9 @@ Make sure these are in .env under project root:
 - TWELVEDATA_API_KEY ( I am using TwelveData, you can use any financial API like AlphaVantage, FinHub etc.
 - TAVILY_API_KEY
 - MONGODB_URI
-This one under frontend: This talks to your backend URL this is where you update the backend url.
+
+  
+This one, under frontend, talks to your backend URL. This is where you update the backend url.
  VITE_API_URL
 
 
