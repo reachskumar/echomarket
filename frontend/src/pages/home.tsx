@@ -64,10 +64,12 @@ const Home: React.FC = () => {
   const [data, setData] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   // Try to figure out the ticker symbol from a company name using backend API
   const detectTicker = async (companyName: string): Promise<string | null> => {
     try {
-      const response = await fetch(`http://localhost:8000/detect-ticker?company=${encodeURIComponent(companyName)}`);
+      const response = await fetch(`${apiUrl}/detect-ticker?company=${encodeURIComponent(companyName)}`);
       if (!response.ok) return null;
       const result = await response.json();
       return result.ticker || null;
@@ -82,7 +84,7 @@ const Home: React.FC = () => {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch(`http://localhost:8000/ui/analyze/${ticker}`, {
+      const res = await fetch(`${apiUrl}/ui/analyze/${ticker}`, {
         method: "GET",
       });
       if (!res.ok) throw new Error("Failed to fetch analysis");
@@ -240,11 +242,11 @@ const Home: React.FC = () => {
             <ExportActions
               ticker={symbol}
               onExportPDF={() => {
-                const url = `http://localhost:8000/analyze/${symbol}/export/pdf`;
+                const url = `${apiUrl}/analyze/${symbol}/export/pdf`;
                 window.open(url, '_blank');
               }}
               onExportCSV={() => {
-                const url = `http://localhost:8000/analyze/${symbol}/export/csv`;
+                const url = `${apiUrl}/analyze/${symbol}/export/csv`;
                 window.open(url, '_blank');
               }}
             />
