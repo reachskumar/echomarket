@@ -1,5 +1,4 @@
 // AI Recommendation Component
-// 
 // Displays the AI's investment recommendation (Buy, Hold, or Sell) along with
 // the reasoning behind the decision.
 
