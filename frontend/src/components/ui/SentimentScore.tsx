@@ -1,5 +1,4 @@
 // Sentiment Analysis Component
-// 
 // Shows the overall market sentiment about the stock based on recent news.
 
 import React from "react";
