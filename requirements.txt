@@ -10,3 +10,4 @@ finnhub-python
 websockets>=13.0
 urllib3>=2.2.2
 fpdf2
+openai==0.28
