@@ -1,5 +1,4 @@
 // Loading Spinner Component
-// 
 // Shows a spinning animation when the app is processing something.
 
 
