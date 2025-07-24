@@ -1,5 +1,4 @@
 // Price Statistics Component
-// 
 // Displays the current stock price along with recent price changes.
 
 import React from "react";
