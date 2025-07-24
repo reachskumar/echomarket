@@ -85,9 +85,9 @@ Make sure these are in .env:
 
  Build the frontend:
 
-   cd frontend
-   npm install
-   npm run build
+   -  cd frontend
+   - npm install
+   - npm run build
    
 
  Create an S3 bucket:
