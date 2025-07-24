@@ -1,5 +1,4 @@
 // Executive Summary Row Component
-// 
 // Displays key metrics from the stock analysis in a clean, organized row format.
 
 
