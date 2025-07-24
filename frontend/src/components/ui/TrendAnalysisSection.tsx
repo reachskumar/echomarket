@@ -1,5 +1,4 @@
 // Trend Analysis Section Component
-// 
 // Shows detailed trend analysis including direction, strength, and risk assessment.
 
 import React from "react";
