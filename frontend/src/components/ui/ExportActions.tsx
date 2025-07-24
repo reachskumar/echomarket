@@ -1,5 +1,4 @@
 // Export Actions Component
-// 
 // Provides buttons for users to download their stock analysis as PDF or CSV files.
 
 
