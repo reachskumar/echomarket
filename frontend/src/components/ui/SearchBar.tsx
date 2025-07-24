@@ -1,5 +1,4 @@
 // Search Bar Component
-// 
 // Input field where users can type company names or ticker symbols.
 
 import React from "react";
