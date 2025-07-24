@@ -1,5 +1,4 @@
 // Card Components
-// 
 // Set of components for creating consistent card layouts throughout the app.
 
 import * as React from "react"
