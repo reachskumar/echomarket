@@ -50,10 +50,10 @@ Here’s how to get the backend up and running:
 
 ### 2. Setup
 
-cd echomarket
-cp backend/.env.example backend/.env  # Fill in your API keys
-cd backend
-pip install -r requirements.txt
+- cd echomarket
+- cp backend/.env.example backend/.env  # Fill in your API keys
+- cd backend
+- pip install -r requirements.txt
 
 ### 3. Running It
 
