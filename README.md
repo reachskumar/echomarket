@@ -22,6 +22,19 @@ You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'
 
 ## Tech Stack
 
+| Layer         | Tech                              |
+|---------------|-----------------------------------|
+| Backend       | FastAPI (Python), LangGraph       |
+| Frontend      | React + Vite + TypeScript         |
+| AI Models     | OpenAI GPT                        |
+| News Search   | Tavily API                        |
+| Stock Prices  | TwelveData API                    |
+| Storage       | MongoDB Atlas                     |
+| Styling       | Tailwind CSS                      |
+| Deployment    | AWS (S3 + Elastic Beanstalk)      |
+
+## Tech Stack
+
 **Backend:** Python with FastAPI, LangGraph
 **Frontend:** React with TypeScript, Vite
 **AI:** OpenAI GPT models
