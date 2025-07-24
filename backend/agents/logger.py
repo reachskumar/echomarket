@@ -21,11 +21,9 @@ except Exception as e:
     mongo = None
 
 def log_agent(agent_name: str) -> Callable:
-    # Decorator to log when an agent starts and finishes
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(state: Any) -> Dict[str, Any]:
-            # Log start and end of agent step
             logger.info(f"[{agent_name}] Starting analysis step")
             result = func(state)
             logger.info(f"[{agent_name}] Completed analysis step")
