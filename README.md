@@ -4,67 +4,156 @@ A simple stock analysis tool that pulls together price data, news, and sentiment
 
 ## What it does
 
-Ever tried researching a stock and ended up with 20 browser tabs open? Yeah, me too. This tool grabs the essentials - current price, recent news, what people are saying about it - and gives you a clean summary instead of making you piece everything together yourself.
+Ever tried researching a stock and ended up with 20 browser tabs open? Echomarket grabs the essentials - current price, recent news, what people are saying about it - and gives you a clean summary instead of making you piece everything together yourself.
 
 You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'll figure out what you mean either way.
 
-## What you get
+##  How It Works
 
-- Current stock price and recent price movements
-- Sentiment analysis from recent news articles
-- Buy/hold/sell recommendation with reasoning
-- Trend analysis that actually explains what's happening
-- Export your analysis to PDF or CSV
+1. Finds the ticker if you type a company name.
+2. Fetches live price and price history (TwelveData).
+3. Pulls relevant news via Tavily.
+4. Analyzes sentiment and trend.
+5. Chains agent-based steps using LangGraph and OpenAI.
+6. Delivers a clean summary and recommendation.
 
-The AI tries to explain its reasoning instead of just spitting out numbers, which I find way more useful than most stock analysis tools.
 
-## Getting it running
+Always show details
 
-You'll need both the backend (Python) and frontend (React) running.
+Copy
+from pathlib import Path
+import re
 
-**Backend:**
-```bash
+# Load current README content
+readme_path = "/mnt/data/EchoMarket_README_Humanized.md"
+readme_text = Path(readme_path).read_text()
+
+
+## Tech Stack
+
+**Backend:** Python with FastAPI, LangGraph
+**Frontend:** React with TypeScript, Vite
+**AI:** OpenAI GPT models
+**Data:** TwelveData for prices, Tavily for news
+**Database:** MongoDB Atlas
+**Styling:** Tailwind CSS
+**Deployment:** AWS (S3 + Elastic Beanstalk)
+
+
+##  Running the Backend (Locally)
+
+Here’s how to get the backend up and running:
+
+### 1. Prerequisites
+- Python 3.10+
+- `pip`
+- API keys for:
+  - OpenAI
+  - TwelveData
+  - Tavily
+  - MongoDB Atlas
+
+### 2. Setup
+
+cd echomarket
+cp backend/.env.example backend/.env  # Fill in your API keys
 cd backend
 pip install -r requirements.txt
-python main.py
-```
 
-**Frontend:**
-```bash
+### 3. Running It
+
+Make sure to run from the project root using:
+python -m backend.main 
+Don’t run `main.py` directly — it’ll break imports.
+
+##  Running the Frontend (Locally)
+
 cd frontend
 npm install
-npm run dev
+npm run dev 
+
+## 🔑 API Keys Needed
+
+Make sure these are in .env:
+
+- OPENAI_API_KEY 
+- TWELVEDATA_API_KEY ( I am using TwelveData, you can use any financial API like AlphaVantage, FinHub etc.
+- TAVILY_API_KEY
+- MONGODB_URI
+
+
+
+## AWS Deployment Guide
+
+### Frontend (on AWS S3)
+
+ Build the frontend:
+
+   cd frontend
+   npm install
+   npm run build
+   
+
+ Create an S3 bucket:
+   - Uncheck “Block all public access”.
+   - Enable **static website hosting**.
+   - Set `index.html` as the Index and Error document.
+
+ Upload contents of `dist/` folder (not the folder itself).
+
+ Use this bucket policy (replace `YOUR_BUCKET_NAME`):
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+    }
+  ]
+}
 ```
 
-**API Keys:**
-Check `backend/.env.example` for what you'll need. The main ones are:
-- OpenAI API key (for the AI analysis)
-- TwelveData API key (for stock prices)
-- Tavily API key (for news)
+---
 
-## How it works
+### Backend (on AWS Elastic Beanstalk)
 
-The backend chains together several analysis steps:
-1. Fetches current price and recent price history
-2. Grabs recent news articles about the company
-3. Analyzes sentiment from those articles
-4. Looks at price trends and volatility
-5. Generates a buy/hold/sell recommendation
-6. Summarizes everything in plain English
+ Make sure your Dockerfile is present.
 
-Each step is handled by a separate "agent" that focuses on one thing, then passes its results to the next step.
+Install the EB CLI (or use AWS Console):
 
-## Tech stack
+   pip install awsebcli
+   
+ Initialize:
+ 
+   eb init  # Choose Docker platform
+  
 
-- **Backend:** Python with FastAPI
-- **Frontend:** React with TypeScript
-- **AI:** OpenAI GPT models
-- **Data:** TwelveData for prices, Tavily for news
-- **Database:** MongoDB (for storing analysis results)
-- **Styling:** Tailwind CSS
+Deploy:
+   
+   eb create echomarket-backend-env
+   # Or redeploy later:
+   eb deploy
+  
 
-## Notes
+Set environment variables in EB Console
+   Add OpenAI, MongoDB URI, etc.
 
-This is for research and educational purposes. Don't make investment decisions based solely on what any AI tells you - always do your own research and consider talking to a financial advisor.
+ Check EB health & logs.
 
-The tool works pretty well for getting a quick overview of a stock, but it's not meant to replace thorough due diligence.
+
+## IMP Once your backend is running on AWS ElasticBeanstalk, make sure you whitelist your backend public IP in MOngoDB Atlas to avoid SSL handshake issues.
+
+ ##  Architecture Summary
+
+- **LangGraph** agents handle each step: retrieval → sentiment → reasoning → recommendation.
+- Logs and results stored in **MongoDB Atlas**.
+- Entire pipeline is modular and auditable.
+
+
+## Disclaimer
+
+This is for **educational/research** use. Don't make investment decisions based solely on this — always do your own due diligence or consult a financial advisor.
