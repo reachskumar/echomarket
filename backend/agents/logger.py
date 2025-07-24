@@ -1,75 +1,68 @@
-"""
-Logger and logging‐decorator for EchoMarket agents.
-"""
+# Logs and saves analysis results to MongoDB
+
 import logging
-from functools import wraps
-from typing import Any, Dict
 from datetime import datetime
-
+from uuid import uuid4
+from functools import wraps
+from typing import Any, Dict, Callable
+from pymongo import MongoClient
 from backend.config import settings
+from openai import OpenAIError
 
-logger = logging.getLogger("echomarket.agents")
+logger = logging.getLogger(__name__)
 
-def log_agent(name: str):
-    """Decorator to log an agent’s inputs and outputs."""
-    def decorator(fn):
-        @wraps(fn)
-        def wrapped(state):
-            logger.info(
-                f"▶ {name}: input = {{"
-                f"ticker={getattr(state, 'ticker', '')!r}, "
-                f"news_count={len(getattr(state, 'news', []))}, "
-                f"sentiment={getattr(state, 'sentiment', None)!r}, "
-                f"prices_count={len(getattr(state, 'prices', {}))}"
-                f"}}"
-            )
-            result = fn(state)
-            logger.info(f"◀ {name}: output = {result}")
+# Set up MongoDB connection
+try:
+    mongo = MongoClient(settings.MONGODB_URI)[settings.MONGO_DB_NAME][settings.MONGO_COLLECTION]
+    logger.info("[Logger] Connected to MongoDB for analysis logging")
+except Exception as e:
+    # If connection fails, log error and set mongo to None
+    logger.error(f"[Logger] Failed to connect to MongoDB: {e}")
+    mongo = None
+
+def log_agent(agent_name: str) -> Callable:
+    # Decorator to log when an agent starts and finishes
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(state: Any) -> Dict[str, Any]:
+            # Log start and end of agent step
+            logger.info(f"[{agent_name}] Starting analysis step")
+            result = func(state)
+            logger.info(f"[{agent_name}] Completed analysis step")
             return result
-        return wrapped
+        return wrapper
     return decorator
 
-# -----------------------------------------------------------------------------
-# LoggerAgent: persist pipeline run to MongoDB if configured; else no‐op.
-# -----------------------------------------------------------------------------
-try:
-    from pymongo import MongoClient
-except ImportError:
-    MongoClient = None  # no pymongo => no persistence
-
-_logs = None
-if MongoClient and settings.MONGODB_URI:
-    try:
-        _client = MongoClient(settings.MONGODB_URI)
-        _db = _client[settings.MONGODB_DB_NAME or "echomarket"]
-        _logs = _db["echomarket_logs"]
-    except Exception as e:
-        logger.error("[LoggerAgent] Mongo init failed: %s", e)
-        _logs = None
-
-def logger_agent(state: Any) -> Dict[str, str | None]:
-    """
-    Final agent in pipeline: writes the entire GraphState to MongoDB.
-    Returns {"log_id": <inserted_id>}, or {"log_id": None} on no‐op/failure.
-    """
-    if _logs is None:
+@log_agent("logger")  # Logs and saves analysis results to MongoDB
+def logger_agent(state: Any) -> Dict[str, Any]:
+    # Skips if MongoDB isn't available
+    if mongo is None:
+        logger.warning("[LoggerAgent] MongoDB not available, skipping result storage")
         return {"log_id": None}
-
-
-    doc = {
-        "timestamp":      datetime.utcnow(),
-        "ticker":         getattr(state, "ticker", None),
-        "news":           getattr(state, "news", None),
-        "sentiment":      getattr(state, "sentiment", None),
-        "confidence":     getattr(state, "confidence", None),
-        "prices":         getattr(state, "prices", None),
-        "recommendation": getattr(state, "recommendation", None),
-        "insight":        getattr(state, "insight", None),
-        "summary":        getattr(state, "summary", None),
-    }
     try:
-        res = _logs.insert_one(doc)
-        return {"log_id": str(res.inserted_id)}
+        ticker = getattr(state, "ticker", "")
+        # Build the analysis record
+        analysis_record = {
+            "query_id": str(uuid4()),
+            "ticker": ticker,
+            "timestamp": datetime.utcnow(),
+            "price": getattr(state, "price", None),
+            "prices": getattr(state, "prices", {}),
+            "sentiment": getattr(state, "sentiment", None),
+            "confidence": getattr(state, "confidence", None),
+            "trend": getattr(state, "trend", {}),
+            "recommendation": getattr(state, "recommendation", None),
+            "insight": getattr(state, "insight", None),
+            "summary": getattr(state, "summary", None),
+            "news": getattr(state, "news", []),
+            "chart_url": getattr(state, "chart_url", None)
+        }
+        # Save to MongoDB
+        result = mongo.insert_one(analysis_record)
+        log_id = str(result.inserted_id)
+        logger.info(f"[LoggerAgent] Saved analysis for {ticker} with ID {log_id}")
+        return {"log_id": log_id}
     except Exception as e:
-        logger.error("[LoggerAgent] insert failed: %s", e)
+        # If saving fails, just return log_id: None
+        logger.error(f"[LoggerAgent] Failed to save analysis results: {e}")
         return {"log_id": None}

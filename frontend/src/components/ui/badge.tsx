@@ -3,7 +3,9 @@ import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const Badge = ({ className, ...props }: BadgeProps) => {
+export const Badge = ({ className, children, ...props }: BadgeProps) => {
+  if (!children) return null; // avoid rendering empty badge
+
   return (
     <div
       className={cn(
@@ -11,6 +13,8 @@ export const Badge = ({ className, ...props }: BadgeProps) => {
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 };

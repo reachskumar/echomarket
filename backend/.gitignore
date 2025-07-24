@@ -1,7 +1,3 @@
-__pycache__/
-.env
-*.pyc
-*.log
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

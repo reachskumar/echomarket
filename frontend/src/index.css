@@ -1,11 +1,13 @@
-@import "tw-animate-css";
+/* Import Inter font from Google Fonts for clean, modern text */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
+/* Tailwind base styles, component classes, and utility classes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Light theme color variables */
   :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.1 0 0);
@@ -22,6 +24,7 @@
     --radius: 0.625rem;
   }
 
+  /* Dark theme color variables */
   .dark {
     --background: oklch(0.1 0 0);
     --foreground: oklch(0.98 0 0);
@@ -37,6 +40,7 @@
     --ring: oklch(0.6 0 0);
   }
 
+  /* Smooth scrolling and base font styles */
   html {
     @apply scroll-smooth;
   }
@@ -46,6 +50,7 @@
   }
 }
 
+/* Utility classes for background, text, border, ring, etc. using CSS variables */
 @layer utilities {
   .bg-background {
     background-color: hsl(var(--background));

@@ -1,71 +1,88 @@
+// Market News Component
+// 
+// Displays recent news articles related to the stock being analyzed.
+
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExternalLink, Newspaper } from "lucide-react";
 
 interface NewsItem {
   title: string;
   snippet: string;
-  link: string;
-  source: string;
-  publishedAt: string;
-  sentiment?: "positive" | "neutral" | "negative";
+  url: string;
 }
 
 interface MarketNewsProps {
   news: NewsItem[];
+  ticker?: string;
 }
 
-const sentimentColor = {
-  positive: "bg-green-100 text-green-800",
-  negative: "bg-red-100 text-red-800",
-  neutral: "bg-gray-100 text-gray-800",
-};
-
-export const MarketNews = ({ news }: MarketNewsProps) => {
+export const MarketNews: React.FC<MarketNewsProps> = ({
+  news,
+  ticker,
+}) => {
   return (
-    <Card className="w-full rounded-xl shadow-md border border-border bg-card">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold text-primary">
-          Market News
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold text-gray-800 flex items-center space-x-2">
+          <Newspaper size={20} className="text-blue-600" />
+          <span>
+            Recent News {ticker && `(${ticker})`}
+          </span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {news.map((item, index) => (
-          <div
-            key={index}
-            className="border border-border rounded-md p-4 hover:shadow-sm transition duration-200"
-          >
-            <div className="flex justify-between items-start mb-1 gap-2">
-              <div className="flex flex-col">
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-base font-semibold text-primary hover:underline"
-                >
-                  {item.title}
-                </a>
-                <p className="text-sm text-muted-foreground mt-1">{item.snippet}</p>
-              </div>
-              <div className="text-right space-y-1 text-xs text-muted-foreground">
-                <div>{new Date(item.publishedAt).toLocaleDateString()}</div>
-                <div>{item.source}</div>
-                {item.sentiment && (
-                  <div
-                    className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${sentimentColor[item.sentiment]}`}
+      <CardContent>
+        {news && news.length > 0 ? (
+          <div className="space-y-4">
+            <div className="text-sm text-gray-600 mb-4">
+              Found {news.length} recent article{news.length !== 1 ? 's' : ''}
+            </div>
+
+           
+            {news.slice(0, 8).map((article, index) => (
+              <div 
+                key={index} 
+                className="border-l-4 border-blue-200 pl-4 py-2 hover:bg-gray-50 transition-colors"
+              >
+                <h4 className="font-medium text-gray-900 mb-2 line-clamp-2">
+                  {article.title}
+                </h4>
+                
+                {article.snippet && (
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-3">
+                    {article.snippet}
+                  </p>
+                )}
+                
+                {article.url && (
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
                   >
-                    {item.sentiment}
-                  </div>
+                    <span>Read full article</span>
+                    <ExternalLink size={14} className="ml-1" />
+                  </a>
                 )}
               </div>
-            </div>
+            ))}
+
+            {news.length > 8 && (
+              <div className="text-sm text-gray-500 text-center pt-4 border-t">
+                And {news.length - 8} more article{news.length - 8 !== 1 ? 's' : ''}...
+              </div>
+            )}
           </div>
-        ))}
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <Newspaper size={32} className="mx-auto mb-2 opacity-50" />
+            <p>No recent news articles found</p>
+            <p className="text-xs mt-1">
+              We couldn't find recent news for this stock
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

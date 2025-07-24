@@ -1,42 +1,44 @@
+// Header Component
+// Simple header bar that shows the app name and navigation.
+
 import React from "react";
-import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
-const Header = () => {
+const Header: React.FC = () => {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
 
   return (
-    <header className="w-full py-6 px-4 bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Echo<span className="text-yellow-300">Market</span>
-        </h1>
-        <div className="flex items-center gap-4">
-          <p className="text-sm opacity-80 hidden sm:block">
-            Powered by <a href="https://www.tavily.com" target="_blank" className="underline hover:text-white">Tavily</a>
-          </p>
-          {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition"
-              aria-label="Toggle Theme"
-            >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          )}
+    <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-md px-6 py-6 mb-6">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="flex flex-col items-center sm:items-start">   
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight drop-shadow-md">
+            EchoMarket
+          </h1>
+          <span className="text-base sm:text-lg text-blue-100 dark:text-gray-300 font-medium mt-1">
+            Your Intelligent Market Assistant
+          </span>
+          <span className="mt-2 text-xs sm:text-sm text-blue-200 dark:text-blue-300 font-semibold bg-blue-100/10 dark:bg-gray-800/40 px-3 py-1 rounded-full shadow-sm">
+            Powered by <a href="https://www.tavily.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Tavily</a>
+          </span>
         </div>
+        <nav className="flex items-center space-x-4 mt-2 sm:mt-0">
+          <button
+            aria-label="Toggle theme"
+            className="rounded-full p-2 hover:bg-blue-200/30 dark:hover:bg-gray-700 transition-colors"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? (
+              <Sun size={22} className="text-yellow-300" />
+            ) : (
+              <Moon size={22} className="text-black" />
+            )}
+          </button>
+        </nav>
       </div>
     </header>
   );
 };
 
+// Export the Header component as default
 export default Header;

@@ -1,0 +1,21 @@
+# Ignore frontend dependencies and build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/.cache/
+
+# Ignore git and OS files
+.git
+.gitignore
+.DS_Store
+
+# Ignore other common files
+*.log
+*.sqlite3
+*.db
+*.csv
+*.pdf
+*.zip
+*.tar
+*.tar.gz
+*.egg-info/

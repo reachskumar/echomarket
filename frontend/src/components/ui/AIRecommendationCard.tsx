@@ -1,88 +1,98 @@
-import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Loader } from "lucide-react";
+// AI Recommendation Component
+// 
+// Displays the AI's investment recommendation (Buy, Hold, or Sell) along with
+// the reasoning behind the decision.
 
-interface RecommendationProps {
-  insight?: string;
-  action?: string;
-  confidence?: number;
-  risk?: string;
-  timeHorizon?: string;
-  recommendationExplanation?: string;
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendingUp, Shield, TrendingDown, AlertTriangle } from "lucide-react";
+
+interface AIRecommendationCardProps {
+  recommendation: string;
+  insight: string;
 }
 
-const AIRecommendationCard: React.FC<RecommendationProps> = ({
-  insight = "No insight available.",
-  action = "Hold",
-  confidence = 0,
-  risk = "Unknown",
-  timeHorizon = "N/A",
-  recommendationExplanation = "No explanation provided.",
+const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
+  recommendation,
+  insight,
 }) => {
-  const badgeStyle =
-    action.toLowerCase() === "buy"
-      ? "bg-green-200 text-green-800"
-      : action.toLowerCase() === "sell"
-      ? "bg-red-200 text-red-800"
-      : "bg-yellow-200 text-yellow-800";
+  // Determine what type of recommendation we're showing
+  const isBuy = recommendation.toLowerCase() === "buy";
+  const isSell = recommendation.toLowerCase() === "sell";
 
-  const icon =
-    action.toLowerCase() === "buy" ? (
-      <TrendingUp size={16} className="mr-1" />
-    ) : action.toLowerCase() === "sell" ? (
-      <TrendingDown size={16} className="mr-1" />
-    ) : (
-      <Loader size={16} className="mr-1" />
-    );
+  // Choose appropriate styling based on recommendation type
+  const getRecommendationStyle = () => {
+    if (isBuy) {
+      return {
+        bgColor: "bg-green-50",
+        borderColor: "border-l-green-500",
+        textColor: "text-green-700",
+        icon: TrendingUp,
+        badgeStyle: "bg-green-100 text-green-800"
+      };
+    } else if (isSell) {
+      return {
+        bgColor: "bg-red-50",
+        borderColor: "border-l-red-500",
+        textColor: "text-red-700",
+        icon: TrendingDown,
+        badgeStyle: "bg-red-100 text-red-800"
+      };
+    } else {
+      return {
+        bgColor: "bg-blue-50",
+        borderColor: "border-l-blue-500",
+        textColor: "text-blue-700",
+        icon: Shield,
+        badgeStyle: "bg-blue-100 text-blue-800"
+      };
+    }
+  };
+
+  const style = getRecommendationStyle();
+  const RecommendationIcon = style.icon;
 
   return (
-    <Card className="rounded-xl shadow-md border border-border bg-card">
-      <CardHeader className="pb-2 flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold text-primary">
-          Investment Recommendation
+    <Card className={`${style.bgColor} border-l-4 ${style.borderColor}`}>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold text-gray-800 flex items-center space-x-2">
+          <RecommendationIcon size={20} className={style.textColor} />
+          <span>AI Recommendation</span>
         </CardTitle>
-        <span
-          className={`flex items-center px-3 py-1 rounded-full text-sm font-medium ${badgeStyle}`}
-        >
-          {icon}
-          {action.toUpperCase()}
-        </span>
       </CardHeader>
-
-      <CardContent className="space-y-4">
-        <div className="text-sm text-muted-foreground">
-          <strong>AI Insight:</strong> {insight}
+      <CardContent className="pt-0">
+        <div className="flex items-center justify-between mb-4">
+          <span className={`text-3xl font-bold ${style.textColor}`}>
+            {recommendation.toUpperCase()}
+          </span>
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${style.badgeStyle}`}>
+            {recommendation}
+          </span>
         </div>
 
-        <div className="text-sm text-accent">{recommendationExplanation}</div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div>
-            <span className="font-medium text-muted-foreground">Confidence</span>
-            <div>{!isNaN(confidence) ? `${confidence}%` : "N/A"}</div>
-          </div>
-          <div>
-            <span className="font-medium text-muted-foreground">Risk Level</span>
-            <div>{risk}</div>
-          </div>
-          <div>
-            <span className="font-medium text-muted-foreground">Time Horizon</span>
-            <div>{timeHorizon}</div>
-          </div>
-          <div>
-            <span className="font-medium text-muted-foreground">Action</span>
-            <div>{action}</div>
-          </div>
+        <div className="mb-4">
+          <h4 className="text-sm font-semibold text-gray-700 mb-2">
+            AI Reasoning:
+          </h4>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            {insight || "No detailed reasoning provided."}
+          </p>
         </div>
 
-        <p className="text-xs text-muted-foreground italic pt-2">
-          ⚠️ This recommendation is AI-generated and not financial advice. Please consult your advisor.
-        </p>
+        {/* Disclaimer */}
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="flex items-start space-x-2">
+            <AlertTriangle size={16} className="text-orange-500 mt-0.5 flex-shrink-0" />
+            <div className="text-xs text-gray-600">
+              <p className="font-medium mb-1">Important Disclaimer:</p>
+              <p>
+                This recommendation is generated by AI based on available data and should not 
+                be considered as professional financial advice. Always conduct your own research 
+                and consider consulting with a qualified financial advisor before making investment decisions.
+              </p>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
