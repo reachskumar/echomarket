@@ -29,40 +29,6 @@ You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'
 
 **Executive Summary**: Simple summary
 
-##  Advanced Tavily API Integration
-
-EchoMarket implements **all four Tavily API features** for comprehensive data gathering:
-
-### ** Search**
-- Basic financial news search with targeted queries
-- Real-time headlines and market updates
-- Configurable result limits and domain filtering
-
-### ** Extract** 
-- Full article content extraction from top sources
-- Automated financial figure detection (revenue, earnings, percentages)
-- Key quote extraction from executives and analysts
-- Sentiment indicator identification (bullish/bearish language)
-- Content quality assessment and scoring
-
-### ** Crawl (Advanced Search)**
-- Deep search with enhanced crawl depth
-- Premium financial source targeting (Bloomberg, Reuters, WSJ)
-- Raw content inclusion for detailed analysis
-- Domain-specific filtering for quality assurance
-
-### ** Map**
-- Structured financial data mapping
-- Automated answer generation for specific queries
-- Follow-up question suggestions
-- Multi-source data correlation and validation
-
-### ** Intelligent Processing**
-- Content deduplication across all sources
-- Quality scoring based on source reliability and content depth
-- Relevance ranking using financial keywords and recency
-- Key insight extraction and summarization
-
 
 
 ## Tech Stack
