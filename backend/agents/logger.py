@@ -39,7 +39,7 @@ def logger_agent(state: Any) -> Dict[str, Any]:
         return {"log_id": None}
     try:
         ticker = getattr(state, "ticker", "")
-        # Build the analysis record
+         # Build the analysis record
         analysis_record = {
             "query_id": str(uuid4()),
             "ticker": ticker,
@@ -53,6 +53,10 @@ def logger_agent(state: Any) -> Dict[str, Any]:
             "insight": getattr(state, "insight", None),
             "summary": getattr(state, "summary", None),
             "news": getattr(state, "news", []),
+            "extracted_content": getattr(state, "extracted_content", []),  # Full content
+            "key_insights": getattr(state, "key_insights", []),  # Advanced insights
+            "structured_data": getattr(state, "structured_data", {}),  # Mapped financial data
+            "content_quality_score": getattr(state, "content_quality_score", None),  # Quality metrics
             "chart_url": getattr(state, "chart_url", None)
         }
         # Save to MongoDB
