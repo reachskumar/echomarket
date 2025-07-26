@@ -6,17 +6,55 @@ A simple stock analysis tool that pulls together price data, news, and sentiment
 
 Ever tried researching a stock and ended up with 20 browser tabs open? Echomarket grabs the essentials - current price, recent news, what people are saying about it - and gives you a clean summary instead of making you piece everything together yourself.
 
-You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'll figure out what you mean either way.
+You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'll figure out what you mean either way. ( Currently only ticker search is supported )
 
 ##  How It Works
 
-1. Finds the ticker if you type a company name.
-2. Fetches live price and price history (TwelveData).
-3. Pulls relevant news via Tavily.
-4. Analyzes sentiment and trend.
-5. Chains agent-based steps using LangGraph and OpenAI.
-6. Delivers a clean summary and recommendation.
+**Price Discovery**: Fetches live price and historical data (TwelveData API)
+**Multi-Source News Gathering**: 
+   - **Basic Search**: Headlines and snippets from Tavily
+   - **Advanced Extract**: Full article content with financial analysis
+   - **Crawl-Enhanced Search**: Premium sources with domain filtering
+   - **Data Mapping**: Structured financial metrics and insights
+**Intelligent Content Processing**: Quality scoring, deduplication, and ranking
+**AI-Powered Analysis**: Sentiment analysis using extracted quotes and financial figures
+**Trend Analysis**: Price pattern recognition with OpenAI
+**Investment Recommendations**: Conservative buy/hold/sell guidance
+**Executive Summary**: Simple summary
 
+##  Advanced Tavily API Integration
+
+EchoMarket implements **all four Tavily API features** for comprehensive data gathering:
+
+### ** Search**
+- Basic financial news search with targeted queries
+- Real-time headlines and market updates
+- Configurable result limits and domain filtering
+
+### ** Extract** 
+- Full article content extraction from top sources
+- Automated financial figure detection (revenue, earnings, percentages)
+- Key quote extraction from executives and analysts
+- Sentiment indicator identification (bullish/bearish language)
+- Content quality assessment and scoring
+
+### ** Crawl (Advanced Search)**
+- Deep search with enhanced crawl depth
+- Premium financial source targeting (Bloomberg, Reuters, WSJ)
+- Raw content inclusion for detailed analysis
+- Domain-specific filtering for quality assurance
+
+### ** Map**
+- Structured financial data mapping
+- Automated answer generation for specific queries
+- Follow-up question suggestions
+- Multi-source data correlation and validation
+
+### ** Intelligent Processing**
+- Content deduplication across all sources
+- Quality scoring based on source reliability and content depth
+- Relevance ranking using financial keywords and recency
+- Key insight extraction and summarization
 
 
 
