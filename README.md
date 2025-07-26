@@ -11,15 +11,22 @@ You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'
 ##  How It Works
 
 **Price Discovery**: Fetches live price and historical data (TwelveData API)
+
 **Multi-Source News Gathering**: 
    - **Basic Search**: Headlines and snippets from Tavily
    - **Advanced Extract**: Full article content with financial analysis
    - **Crawl-Enhanced Search**: Premium sources with domain filtering
    - **Data Mapping**: Structured financial metrics and insights
+   - 
 **Intelligent Content Processing**: Quality scoring, deduplication, and ranking
+
+
 **AI-Powered Analysis**: Sentiment analysis using extracted quotes and financial figures
+
 **Trend Analysis**: Price pattern recognition with OpenAI
+
 **Investment Recommendations**: Conservative buy/hold/sell guidance
+
 **Executive Summary**: Simple summary
 
 ##  Advanced Tavily API Integration
