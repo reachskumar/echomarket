@@ -69,8 +69,8 @@ def sentiment_agent(state):
     
     # Build the enhanced prompt for OpenAI
     analysis_type = "advanced" if extracted_content else "basic"
-    confidence_boost = "high" if content_quality_score > 70 else "moderate" if content_quality_score > 40 else "low"
-    
+    quality_score = content_quality_score or 0
+    confidence_boost = "high" if quality_score > 70 else "moderate" if quality_score > 40 else "low"
     user_prompt = (
         f"Given the following financial news analysis ({analysis_type} extraction, {confidence_boost} quality sources), "
         "provide an overall sentiment: Bullish, Bearish, or Neutral. Also give a confidence score between 0 and 1."
