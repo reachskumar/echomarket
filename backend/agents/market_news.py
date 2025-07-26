@@ -1,3 +1,5 @@
+#Market News Agent executes the complete Tavily API suite to provide accurate financial data
+
 import logging
 import requests
 import re
