@@ -24,18 +24,59 @@ REQUEST_TIMEOUT = 10
 def sentiment_agent(state):
     # Checks news count, builds prompt, and asks OpenAI for sentiment
     news_items = state.news or []
+    extracted_content = getattr(state, "extracted_content", [])
+    key_insights = getattr(state, "key_insights", [])
+    content_quality_score = getattr(state, "content_quality_score", 0)
+    
     if len(news_items) < MIN_NEWS_ITEMS:
         logger.warning("Not enough news; defaulting to Neutral.")
         return {"sentiment": "Neutral", "confidence": 0.0}
 
-    logger.info(f"Analyzing sentiment from {len(news_items)} news items...")
-    combined = "\n".join(f"- {item['title']}: {item['snippet']}" for item in news_items)
-    # Build the prompt for OpenAI
+    logger.info(f"Analyzing sentiment from {len(news_items)} news items (Quality Score: {content_quality_score})...")
+    
+    # Use extracted content for deeper analysis if available
+    if extracted_content:
+        logger.info(f"Enhanced analysis using {len(extracted_content)} extracted articles with advanced processing")
+        combined = "\n".join(f"- {item['title']}: {item['snippet']}" for item in news_items)
+        
+        # Add key insights from advanced processing
+        if key_insights:
+            combined += "\n\nKey Market Insights:"
+            for insight in key_insights[:3]:
+                combined += f"\n- {insight.get('type', 'insight')}: {insight.get('key_point', '')[:100]}"
+        
+        # Add extracted content with financial analysis
+        for content in extracted_content[:2]:  # Use top 2 extracted articles
+            if content.get("content"):
+                combined += f"\n\nDetailed Analysis: {content['content'][:400]}..."
+                
+                # Include financial figures if available
+                if content.get("financial_figures"):
+                    combined += "\nFinancial Data: " + ", ".join([
+                        f"{fig['type']}: {fig['amount']} {fig['unit']}" 
+                        for fig in content["financial_figures"][:3]
+                    ])
+                
+                # Include sentiment indicators
+                if content.get("sentiment_indicators"):
+                    combined += "\nMarket Indicators: " + ", ".join(content["sentiment_indicators"][:3])
+                
+                # Include key quotes
+                if content.get("key_quotes"):
+                    combined += f"\nKey Quote: {content['key_quotes'][0][:150]}..."
+    else:
+        combined = "\n".join(f"- {item['title']}: {item['snippet']}" for item in news_items)
+    
+    # Build the enhanced prompt for OpenAI
+    analysis_type = "advanced" if extracted_content else "basic"
+    confidence_boost = "high" if content_quality_score > 70 else "moderate" if content_quality_score > 40 else "low"
+    
     user_prompt = (
-        "Given the following financial news items, provide an overall sentiment: "
-        "Bullish, Bearish, or Neutral. Also give a confidence score between 0 and 1."
+        f"Given the following financial news analysis ({analysis_type} extraction, {confidence_boost} quality sources), "
+        "provide an overall sentiment: Bullish, Bearish, or Neutral. Also give a confidence score between 0 and 1."
         "\n\n"
         f"{combined}\n\n"
+        "Consider financial figures, executive statements, market indicators, and source quality in your analysis. "
         "Respond ONLY with JSON in the format: {\"sentiment\": \"Bullish\", \"confidence\": 0.85}."
     )
     messages = [
