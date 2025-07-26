@@ -73,6 +73,10 @@ class GraphState(BaseModel):
     """Data that gets passed between analysis steps"""
     ticker: str
     news: List[Dict[str, Any]] = []
+    extracted_content: List[Dict[str, Any]] = []  # Full article content from Tavily extract
+    key_insights: List[Dict[str, Any]] = []  # Key insights from advanced processing
+    structured_data: Dict[str, Any] = {}  # Mapped financial data
+    content_quality_score: Optional[float] = None  # Overall content quality
     sentiment: Optional[str] = None
     confidence: Optional[float] = None
     prices: Dict[str, float] = {}
@@ -126,7 +130,11 @@ def normalize_output(query_id, ticker, result):
         "insight": result.get("insight"),
         "trend": result.get("trend"),  # if available
         "prices": result.get("prices", {}),
-        "news": result.get("news", [])
+        "news": result.get("news", []),
+        "extracted_content": result.get("extracted_content", []),  # Full article content
+        "key_insights": result.get("key_insights", []),  # Advanced insights
+        "structured_data": result.get("structured_data", {}),  # Mapped financial data
+        "content_quality_score": result.get("content_quality_score")  # Quality metrics
     }
 
 # Routes
