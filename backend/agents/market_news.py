@@ -15,7 +15,7 @@ def market_news_agent(state: Any) -> Dict[str, Any]:
     
     if not ticker or not api_key:
         logger.error(f"Missing ticker ({bool(ticker)}) or API key ({bool(api_key)})")
-        return _empty_result()
+        return {"news": [], "extracted_content": [], "key_insights": [], "structured_data": {}, "content_quality_score": 0}
     
     try:
         logger.info(f"[Tavily] Starting all 4 features for {ticker}: Search + Extract + Crawl + Map")
@@ -56,7 +56,8 @@ def market_news_agent(state: Any) -> Dict[str, Any]:
         logger.error(f"[Tavily] CRITICAL: Multi-feature extraction failed for {ticker}: {e}")
         import traceback
         logger.error(f"[Tavily] Stack trace: {traceback.format_exc()}")
-        return _empty_result()
+        return {"news": [], "extracted_content": [], "key_insights": [], "structured_data": {}, "content_quality_score": 0}
+        
 
 def _tavily_api_call(api_key: str, params: Dict, feature_name: str = "API") -> List[Dict]:
     """Unified Tavily API caller with detailed logging"""
