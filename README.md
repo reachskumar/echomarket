@@ -17,7 +17,7 @@ You can search by company name (like "Apple") or ticker symbol ("AAPL"), and it'
    - **Advanced Extract**: Full article content with financial analysis
    - **Crawl-Enhanced Search**: Premium sources with domain filtering
    - **Data Mapping**: Structured financial metrics and insights
-   - 
+     
 **Intelligent Content Processing**: Quality scoring, deduplication, and ranking
 
 
